@@ -1,7 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const mongoose = require('mongoose');
+const Post = require('./models/post');
 const app = express();
+
+mongoose.connect("mongodb+srv://admin-abdelsalam:admin@cluster0-zw4ss.mongodb.net/meanStackApp?retryWrites=true",{useNewUrlParser: true})
+.then(() => {
+  console.log('connected to database');
+})
+.catch(() => {
+  console.log("connection failed");
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,28 +29,36 @@ app.use((req, res, next) => {
 });
 
 app.post('/api/posts', (req, res, next) => {
-  const post = req.body;
-  console.log(post);
-  res.status(201).json({
-    message: "post added successfully!"
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  })
+  post.save().then(createdPost => {
+    res.status(201).json({
+      message: "post added successfully!",
+      postId: createdPost._id
+    });
   });
+
+
 });
 
-app.use('/api/posts', (req, res, next) => {
-  const posts =[
-    {id:'1', title: "blablabla", content: "blalblalalaal"},
-    {id:'2', title: "hello", content: "meanStack"},
-    {id:'3', title: "Olha", content: "Karim"}
-    ];
+app.get('/api/posts', (req, res, next) => {
 
+  Post.find().then(documents => {
     res.json({
       message: "posts fetched successfully",
-      posts: posts
+      posts: documents
     });
-  next();
+    });
 });
 
+app.delete('/api/posts/:id',(req, res, next) => {
+  Post.deleteOne({_id: req.params.id}).then(result => {
+     console.log(result);
+     res.status(200).json({message: "Post Deleted!"});
 
-
+  });
+});
 
 module.exports = app;
