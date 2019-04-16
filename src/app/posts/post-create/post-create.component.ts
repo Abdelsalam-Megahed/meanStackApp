@@ -66,7 +66,7 @@ export class PostCreateComponent implements OnInit {
     console.log(this.form);
     const reader = new FileReader();
     reader.onload = () => {
-          this.imagePreview = reader.result;
+          const newLocal = this.imagePreview = reader.result;
       };
     reader.readAsDataURL(file);
   }

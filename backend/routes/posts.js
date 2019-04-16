@@ -26,7 +26,8 @@ const storage = multer.diskStorage({
 });
 
 router.post('', multer({storage: storage}).single('image'), (req, res, next) => {
-const url = req.protocol + '://' +req.get('host');
+
+  const url = req.protocol + '://' +req.get('host');
 
   const post = new Post({
     title: req.body.title,
@@ -67,8 +68,17 @@ router.put(
 );
 
 router.get('', (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
 
-  Post.find().then(documents => {
+  if(pageSize && currentPage){
+    postQuery
+    .skip(pageSize * (currentPage -1))
+    .limit(pageSize);
+  }
+
+  postQuery.then(documents => {
     res.json({
       message: "posts fetched successfully",
       posts: documents
