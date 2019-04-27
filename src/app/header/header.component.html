@@ -2,11 +2,16 @@
  <span><a routerLink='/'>My Massages</a></span>
  <span class="space"></span>
  <ul>
-   <li><a mat-button routerLink='/create' routerLinkActive="mat-accent">New Post</a></li>
+   <li *ngIf="userIsAuthenticated"><a mat-button routerLink='/create' routerLinkActive="mat-accent">New Post</a></li>
 
-   <li><a mat-button routerLink='/login' routerLinkActive="mat-accent">Login</a></li>
+   <li *ngIf="!userIsAuthenticated"><a mat-button routerLink='/login' routerLinkActive="mat-accent">Login</a></li>
 
-   <li><a mat-button routerLink='/signup' routerLinkActive="mat-accent">Sign Up</a></li>
+   <li *ngIf="!userIsAuthenticated"><a mat-button routerLink='/signup' routerLinkActive="mat-accent">Sign Up</a></li>
+
+   <li *ngIf="userIsAuthenticated">
+     <button mat-button>Log Out</button>
+    </li>
+
  </ul>
 
 
