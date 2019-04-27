@@ -5,8 +5,9 @@ const mongoose = require('mongoose');
 const app = express();
 
 const postsRoutes = require('./routes/posts');
+const userRoutes = require('./routes/user');
 
-mongoose.connect("mongodb+srv://admin-abdelsalam:admin@cluster0-zw4ss.mongodb.net/meanStackApp?retryWrites=true",{useNewUrlParser: true})
+mongoose.connect("mongodb+srv://admin-abdelsalam:admin@cluster0-zw4ss.mongodb.net/meanStackApp",{useNewUrlParser: true})
 .then(() => {
   console.log('connected to database');
 })
@@ -32,4 +33,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/posts', postsRoutes);
+app.use('/api/user', userRoutes);
+
 module.exports = app;
