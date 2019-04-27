@@ -68,6 +68,7 @@ export class PostCreateComponent implements OnInit {
     reader.onload = () => {
           const newLocal = this.imagePreview = reader.result;
       };
+
     reader.readAsDataURL(file);
   }
 
