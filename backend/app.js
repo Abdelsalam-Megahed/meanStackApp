@@ -7,7 +7,7 @@ const app = express();
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 
-mongoose.connect("mongodb+srv://admin-abdelsalam:admin@cluster0-zw4ss.mongodb.net/meanStackApp",{useNewUrlParser: true})
+mongoose.connect("mongodb+srv://admin-abdelsalam:" + process.env.MONGO_ATLAS_PW + "@cluster0-zw4ss.mongodb.net/meanStackApp",{useNewUrlParser: true})
 .then(() => {
   console.log('connected to database');
 })
